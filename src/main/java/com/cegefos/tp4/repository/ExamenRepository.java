@@ -11,7 +11,6 @@ import java.util.Date;
 @Repository
 public interface ExamenRepository extends MongoRepository<Examen, String> {
 
-
     Collection<Examen> findExamenByDateExam(Date dateExam);
 
 }

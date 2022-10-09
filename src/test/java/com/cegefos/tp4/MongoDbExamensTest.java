@@ -5,13 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 
-import javassist.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -90,18 +88,34 @@ class MongoDbExamensTest {
         examenOptional.ifPresent(System.out::println);
     }
 
+    @Test
+    void findExamenById() {
+        Optional<Examen> examenOptional = examenRepository.findById("6341d8e9d657d07fbe083e00");
+        examenOptional.ifPresent(System.out::println);
+
+    }
 
     @Test
     void updateAnExamen() {
+        Optional<Examen> oldExam = examenRepository.findById("6341d8e9d657d07fbe083e00");
+
+        var newDate = new Date(System.currentTimeMillis());
+
+        if (oldExam.isPresent()) {
+            Examen updatedExam = oldExam.get();
+            updatedExam.setDateExam(newDate);
+            examenRepository.save(updatedExam);
+        }
+
+        System.out.println(oldExam);
 
     }
 
 
     @Test
     void deleteAnExamen() {
-
+        examenRepository.deleteById("6341d8e9d657d07fbe083e00");
     }
-
 
 
     @Test
